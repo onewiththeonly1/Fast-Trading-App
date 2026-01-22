@@ -18,6 +18,10 @@ type Trader struct {
 	instrument config.InstrumentConfig
 	logger     *logger.Logger
 	lastOrder  time.Time
+	product    string // Product type from config (MIS, NRML, CNC)
+	
+	// Price fetch strategy (adaptive based on API permissions)
+	priceMethod string // "positions" or "orders"
 }
 
 const (
@@ -28,12 +32,20 @@ const (
 )
 
 func New(kc *kiteconnect.Client, posMgr *position.Manager, instrument config.InstrumentConfig, logger *logger.Logger) *Trader {
+	// Default to MIS if not specified
+	product := instrument.Product
+	if product == "" {
+		product = kiteconnect.ProductMIS
+	}
+	
 	return &Trader{
-		kc:         kc,
-		posMgr:     posMgr,
-		instrument: instrument,
-		logger:     logger,
-		lastOrder:  time.Now(),
+		kc:          kc,
+		posMgr:      posMgr,
+		instrument:  instrument,
+		logger:      logger,
+		lastOrder:   time.Now(),
+		product:     product,
+		priceMethod: "positions", // Start with positions method
 	}
 }
 
@@ -88,7 +100,7 @@ func (t *Trader) placeOrderWithRetry(txnType string, quantity int) (kiteconnect.
 			Tradingsymbol:   t.instrument.Symbol,
 			TransactionType: txnType,
 			Quantity:        quantity,
-			Product:         kiteconnect.ProductMIS,
+			Product:         t.product,
 			OrderType:       kiteconnect.OrderTypeMarket,
 			Validity:        kiteconnect.ValidityDay,
 		}
@@ -173,23 +185,136 @@ func (t *Trader) updateOrderDetails(orderID, txnType string, lots int) error {
 }
 
 func (t *Trader) FetchCurrentPrice() (float64, error) {
-	key := fmt.Sprintf("%s:%s", t.instrument.Exchange, t.instrument.Symbol)
+	// Try primary method: GetPositions (allowed in Personal Free tier)
+	if t.priceMethod == "positions" {
+		price, err := t.fetchPriceFromPositions()
+		if err == nil {
+			return price, nil
+		}
+		
+		// Check if it's a permission error
+		if isPermissionError(err) {
+			t.logger.Warn("Positions API not available, switching to order history method")
+			t.priceMethod = "orders"
+		} else {
+			return 0, err
+		}
+	}
+	
+	// Fallback method: Get price from latest order (always allowed)
+	if t.priceMethod == "orders" {
+		price, err := t.fetchPriceFromOrders()
+		if err == nil {
+			return price, nil
+		}
+		return 0, err
+	}
+	
+	return 0, fmt.Errorf("no available method to fetch current price")
+}
 
-	quote, err := t.kc.GetLTP(key)
+func (t *Trader) fetchPriceFromPositions() (float64, error) {
+	positions, err := t.kc.GetPositions()
 	if err != nil {
-		return 0, fmt.Errorf("failed to fetch LTP: %w", err)
+		return 0, fmt.Errorf("failed to fetch positions: %w", err)
 	}
-
-	if data, ok := quote[key]; ok {
-		return data.LastPrice, nil
+	
+	// Search in both net and day positions
+	allPositions := append(positions.Net, positions.Day...)
+	
+	for _, pos := range allPositions {
+		// Match by tradingsymbol and exchange
+		if pos.Tradingsymbol == t.instrument.Symbol && 
+		   pos.Exchange == t.instrument.Exchange &&
+		   pos.Product == t.product {
+			
+			// Use LastPrice from position data
+			if pos.LastPrice > 0 {
+				t.logger.Debug("Fetched price from positions: %.2f for %s", 
+					pos.LastPrice, t.instrument.Symbol)
+				return pos.LastPrice, nil
+			}
+		}
 	}
+	
+	// If no position found, it might mean position is closed
+	// Return 0 without error (position manager will handle this)
+	t.logger.Debug("No open position found for %s, using last known price", t.instrument.Symbol)
+	return 0, nil
+}
 
-	return 0, fmt.Errorf("no price data available for %s", key)
+func (t *Trader) fetchPriceFromOrders() (float64, error) {
+	orders, err := t.kc.GetOrders()
+	if err != nil {
+		return 0, fmt.Errorf("failed to fetch orders: %w", err)
+	}
+	
+	// Find the most recent executed order for this instrument
+	var latestPrice float64
+	var latestTime time.Time
+	
+	for _, order := range orders {
+		if order.TradingSymbol == t.instrument.Symbol &&
+		   order.Exchange == t.instrument.Exchange &&
+		   order.Product == t.product &&
+		   order.Status == kiteconnect.OrderStatusComplete &&
+		   order.AveragePrice > 0 {
+			
+			orderTime := order.ExchangeTimestamp.Time
+			if orderTime.After(latestTime) {
+				latestTime = orderTime
+				latestPrice = order.AveragePrice
+			}
+		}
+	}
+	
+	if latestPrice > 0 {
+		t.logger.Debug("Fetched price from order history: %.2f for %s", 
+			latestPrice, t.instrument.Symbol)
+		return latestPrice, nil
+	}
+	
+	return 0, fmt.Errorf("no recent orders found for %s", t.instrument.Symbol)
+}
+
+// Helper to detect permission errors
+func isPermissionError(err error) bool {
+	if err == nil {
+		return false
+	}
+	errStr := err.Error()
+	return contains(errStr, "permission") || 
+	       contains(errStr, "Insufficient permission") ||
+	       contains(errStr, "not allowed")
+}
+
+func contains(s, substr string) bool {
+	return len(s) >= len(substr) && 
+	       (s == substr || len(s) > len(substr) && 
+	        (s[:len(substr)] == substr || s[len(s)-len(substr):] == substr ||
+	         findSubstring(s, substr)))
+}
+
+func findSubstring(s, substr string) bool {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return true
+		}
+	}
+	return false
 }
 
 func (t *Trader) UpdateInstrument(instrument config.InstrumentConfig) {
 	t.instrument = instrument
-	t.logger.Info("Instrument updated to: %s (%s)", instrument.Symbol, instrument.Exchange)
+	
+	// Update product type from new instrument config
+	t.product = instrument.Product
+	if t.product == "" {
+		t.product = kiteconnect.ProductMIS
+	}
+	
+	t.logger.Info("Instrument updated to: %s (%s) with product: %s", 
+		instrument.Symbol, instrument.Exchange, t.product)
 }
 
 func (t *Trader) isMarketHours() bool {

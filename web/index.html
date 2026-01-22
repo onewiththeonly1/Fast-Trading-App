@@ -47,7 +47,7 @@
         }
         .position-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 12px;
         }
         .stat {
@@ -69,7 +69,7 @@
         .positive { color: #00ff88; }
         .negative { color: #ff4444; }
         .orders-list {
-            max-height: 350px;
+            max-height: 220px;
             overflow-y: auto;
         }
         .order-item {
@@ -210,10 +210,6 @@
                         <div class="stat-value" id="qtyUnits">0</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-label">Total Value</div>
-                        <div class="stat-value">₹<span id="totalValue">0.00</span></div>
-                    </div>
-                    <div class="stat">
                         <div class="stat-label">Avg Price</div>
                         <div class="stat-value">₹<span id="avgPrice">0.00</span></div>
                     </div>
@@ -222,6 +218,14 @@
                         <div class="stat-value">₹<span id="cmp">0.00</span></div>
                     </div>
                     <div class="stat">
+                        <div class="stat-label">Purchase Value</div>
+                        <div class="stat-value">₹<span id="purchaseValue">0.00</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Current Value</div>
+                        <div class="stat-value">₹<span id="currentValue">0.00</span></div>
+                    </div>
+                    <div class="stat" style="grid-column: span 2;">
                         <div class="stat-label">MTM P&L</div>
                         <div class="stat-value" id="mtm">₹0.00</div>
                     </div>
@@ -329,9 +333,15 @@
             const pos = data.position || {};
             document.getElementById('qtyLots').textContent = pos.qty_lots || 0;
             document.getElementById('qtyUnits').textContent = pos.qty_units || 0;
-            document.getElementById('totalValue').textContent = (pos.total_value || 0).toFixed(2);
             document.getElementById('avgPrice').textContent = (pos.avg_price || 0).toFixed(2);
             document.getElementById('cmp').textContent = (pos.cmp || 0).toFixed(2);
+            
+            // Purchase Value (total_value)
+            document.getElementById('purchaseValue').textContent = (pos.total_value || 0).toFixed(2);
+            
+            // Current Value (qty_units * cmp)
+            const currentValue = (pos.qty_units || 0) * (pos.cmp || 0);
+            document.getElementById('currentValue').textContent = currentValue.toFixed(2);
             
             const mtmEl = document.getElementById('mtm');
             const mtm = pos.mtm || 0;

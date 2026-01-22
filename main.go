@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
-	"strconv"
 	"sync"
 	"syscall"
 	"time"
@@ -97,8 +95,8 @@ func main() {
 	time.Sleep(500 * time.Millisecond)
 
 	lgr.Info("Application ready. Waiting for commands...")
-	fmt.Println("\n=== Web GUI: http://localhost:8080 ===")
-	fmt.Println("\nReady. Enter commands:")
+	fmt.Printf("\n=== Web GUI: http://localhost:8080 ===\n")
+	fmt.Printf("\nReady. Enter commands:\n")
 	fmt.Print("> ")
 
 	// Start command loop
@@ -106,24 +104,77 @@ func main() {
 }
 
 func selectInstrument() {
-	fmt.Println("\n=== Available Instruments ===")
+	fmt.Printf("\n=== Available Instruments ===\n")
 	for i, inst := range cfg.Instruments {
-		fmt.Printf("%d. %s (%s) - Lot Size: %d\n", i+1, inst.Symbol, inst.Exchange, inst.LotSize)
+		var key string
+		if i < 9 {
+			key = fmt.Sprintf("%d", i+1)
+		} else {
+			key = string('A' + rune(i-9))
+		}
+		product := inst.Product
+		if product == "" {
+			product = "MIS"
+		}
+		fmt.Printf("%s. %s (%s) [%s] - Lot Size: %d\n", key, inst.Symbol, inst.Exchange, product, inst.LotSize)
 	}
 
-	fmt.Print("\nSelect instrument number: ")
-	
-	reader := bufio.NewReader(os.Stdin)
-	input, _ := reader.ReadString('\n')
-	num, err := strconv.Atoi(input[:len(input)-1])
-	
-	if err != nil || num < 1 || num > len(cfg.Instruments) {
-		fmt.Println("Invalid selection. Using first instrument.")
-		num = 1
+	fmt.Printf("\nSelect instrument (1-9, A-Z) or Q to quit: ")
+
+	// Put terminal in raw mode for single-character input
+	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
+	if err != nil {
+		fmt.Printf("\nError setting raw mode, using default...\n")
+		instrument = cfg.Instruments[0]
+		return
 	}
 
-	instrument = cfg.Instruments[num-1]
-	lgr.Info("Selected instrument: %s (%s)", instrument.Symbol, instrument.Exchange)
+	buf := make([]byte, 1)
+	for {
+		n, err := os.Stdin.Read(buf)
+		if err != nil || n == 0 {
+			continue
+		}
+
+		char := buf[0]
+
+		// Handle Quit
+		if char == 'Q' || char == 'q' {
+			term.Restore(int(os.Stdin.Fd()), oldState)
+			fmt.Printf("\nExiting application.\n")
+			os.Exit(0)
+		}
+
+		var selectedIndex int = -1
+
+		// Handle 1-9
+		if char >= '1' && char <= '9' {
+			selectedIndex = int(char - '1')
+		}
+		// Handle A-Z (case insensitive)
+		if (char >= 'A' && char <= 'Z') || (char >= 'a' && char <= 'z') {
+			if char >= 'a' {
+				char = char - 32 // Convert to uppercase
+			}
+			selectedIndex = 9 + int(char-'A')
+		}
+
+		// Validate selection
+		if selectedIndex >= 0 && selectedIndex < len(cfg.Instruments) {
+			instrument = cfg.Instruments[selectedIndex]
+			
+			// Restore terminal before printing
+			term.Restore(int(os.Stdin.Fd()), oldState)
+			
+			fmt.Printf("\n\nSelected: %s (%s) [%s]\n", 
+				instrument.Symbol, instrument.Exchange, 
+				instrument.Product)
+			
+			lgr.Info("Selected instrument: %s (%s) [%s]", 
+				instrument.Symbol, instrument.Exchange, instrument.Product)
+			return
+		}
+	}
 }
 
 func commandLoop() {
@@ -228,7 +279,7 @@ func handleNumericInput(char byte) {
 func handleChangeInstrument() {
 	if posMgr.HasOpenPosition() {
 		lgr.Warn("Cannot change instrument with open positions")
-		fmt.Print("\n⚠️  Cannot change with open positions\n> ")
+		fmt.Printf("\n⚠️  Cannot change with open positions\n> ")
 		srv.BroadcastUpdate()
 		return
 	}
@@ -238,7 +289,7 @@ func handleChangeInstrument() {
 	
 	posMgr.Reset()
 	lgr.Info("Changing instrument...")
-	fmt.Println()
+	fmt.Printf("\n")
 	selectInstrument()
 	trdr.UpdateInstrument(instrument)
 	srv.UpdateInstrument(&instrument)
@@ -251,7 +302,7 @@ func handleChangeInstrument() {
 		lgr.Error("Failed to restore raw mode: %v", err)
 	}
 	
-	fmt.Println("\nReady. Enter commands:")
+	fmt.Printf("\nReady. Enter commands:\n")
 	fmt.Print("> ")
 }
 
@@ -302,12 +353,15 @@ func updatePositionLoop() {
 		if posMgr.GetPosition().QtyUnits > 0 {
 			price, err := trdr.FetchCurrentPrice()
 			if err != nil {
-				lgr.Warn("Failed to fetch current price: %v", err)
+				lgr.Debug("Price fetch skipped: %v", err)
 				continue
 			}
 			
-			posMgr.UpdateCMP(price)
-			srv.BroadcastUpdate()
+			// Only update if price is valid (> 0)
+			if price > 0 {
+				posMgr.UpdateCMP(price)
+				srv.BroadcastUpdate()
+			}
 		}
 	}
 }
@@ -342,5 +396,5 @@ func cleanup() {
 		lgr.Close()
 	}
 	
-	fmt.Println("\nGoodbye!")
+	fmt.Printf("\nGoodbye!\n")
 }

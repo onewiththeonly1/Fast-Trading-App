@@ -17,6 +17,7 @@ type InstrumentConfig struct {
 	Symbol   string `json:"symbol"`
 	Exchange string `json:"exchange"`
 	LotSize  int    `json:"lot_size"`
+	Product  string `json:"product"` // MIS, NRML, CNC, etc.
 }
 
 func Load(filename string) (*Config, error) {
@@ -40,6 +41,20 @@ func Load(filename string) (*Config, error) {
 	}
 	if len(config.Instruments) == 0 {
 		return nil, fmt.Errorf("at least one instrument is required in config.json")
+	}
+
+	// Validate each instrument
+	for i, inst := range config.Instruments {
+		if inst.Symbol == "" {
+			return nil, fmt.Errorf("instrument %d: symbol is required", i+1)
+		}
+		if inst.Exchange == "" {
+			return nil, fmt.Errorf("instrument %d: exchange is required", i+1)
+		}
+		if inst.LotSize <= 0 {
+			return nil, fmt.Errorf("instrument %d: lot_size must be greater than 0", i+1)
+		}
+		// Product is optional - defaults to MIS if not specified
 	}
 
 	return &config, nil
