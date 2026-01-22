@@ -1,0 +1,399 @@
+2026-01-22 05:55:57 [INFO] === Fast Trading Application Starting ===
+2026-01-22 05:55:57 [ERROR] Failed to verify credentials: Insufficient permission for that call.
+2026-01-22 05:58:17 [INFO] === Fast Trading Application Starting ===
+2026-01-22 05:58:17 [INFO] Logged in as: Suman Tiwari (KGS506)
+2026-01-22 05:58:21 [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+2026-01-22 05:58:21 [INFO] Application ready. Waiting for commands...
+2026-01-22 05:58:21 [INFO] Available commands: <NUM> buy, -<NUM> sell, -- close all, C change, Q quit
+2026-01-22 05:58:21 [INFO] Web server starting on port 8080
+2026-01-22 05:58:26 [INFO] BUY command: 1 lots
+2026-01-22 05:58:29 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 05:58:46 [INFO] BUY command: 2 lots
+2026-01-22 05:58:49 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 05:58:51 [INFO] BUY command: 3 lots
+2026-01-22 05:58:55 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 05:58:57 [INFO] BUY command: 1 lots
+2026-01-22 05:59:00 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 05:59:05 [INFO] SELL command: 1 lots
+2026-01-22 05:59:08 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 05:59:10 [WARN] No open positions to close
+2026-01-22 05:59:23 [DEBUG] New WebSocket client connected
+2026-01-22 06:00:05 [INFO] BUY command: 1 lots
+2026-01-22 06:00:08 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:13 [INFO] BUY command: 1 lots
+2026-01-22 06:00:17 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:20 [INFO] BUY command: 2 lots
+2026-01-22 06:00:23 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:26 [INFO] SELL command: 1 lots
+2026-01-22 06:00:28 [INFO] SELL command: 1 lots
+2026-01-22 06:00:29 [INFO] SELL command: 2 lots
+2026-01-22 06:00:29 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:30 [INFO] SELL command: 2 lots
+2026-01-22 06:00:30 [INFO] SELL command: 2 lots
+2026-01-22 06:00:31 [INFO] BUY command: 2 lots
+2026-01-22 06:00:31 [INFO] SELL command: 2 lots
+2026-01-22 06:00:31 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:31 [INFO] SELL command: 2 lots
+2026-01-22 06:00:32 [INFO] BUY command: 2 lots
+2026-01-22 06:00:32 [INFO] BUY command: 2 lots
+2026-01-22 06:00:32 [INFO] BUY command: 2 lots
+2026-01-22 06:00:32 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:32 [INFO] BUY command: 2 lots
+2026-01-22 06:00:33 [INFO] BUY command: 2 lots
+2026-01-22 06:00:33 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:34 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:34 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:35 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:35 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:35 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:35 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:35 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:36 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:36 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:44 [INFO] SELL command: 1 lots
+2026-01-22 06:00:47 [ERROR] Sell order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:00:56 [INFO] BUY command: 2 lots
+2026-01-22 06:00:59 [ERROR] Buy order failed: order failed after 3 attempts: Your order could not be converted to a After Market Order (AMO).
+2026-01-22 06:05:03 [INFO] Received Ctrl+C, exiting...
+[2026-01-22 06:29:28] [INFO] === Fast Trading Application Starting ===
+[2026-01-22 06:29:29] [ERROR] Failed to verify credentials: Incorrect `api_key` or `access_token`.
+[2026-01-22 06:35:05] [INFO] === Fast Trading Application Starting ===
+[2026-01-22 06:35:06] [INFO] Logged in as: Suman Tiwari (KGS506)
+[2026-01-22 06:35:10] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:36:20] [INFO] Web server starting on port 8080
+[2026-01-22 06:36:20] [INFO] Application ready. Waiting for commands...
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:36:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:36:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:07] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:07] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:11] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:11] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:12] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:12] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:16] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:16] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:28] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:28] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:32] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:32] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:34] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:34] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:35] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:35] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:36] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:38] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:38] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:41] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:41] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:42] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:42] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:43] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:43] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:37:43] [WARN] Order attempted outside market hours
+[2026-01-22 06:37:43] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:37:57] [INFO] Received Ctrl+C, exiting...
+[2026-01-22 06:37:57] [INFO] Cleaning up resources...
+[2026-01-22 06:37:58] [INFO] === Fast Trading Application Starting ===
+[2026-01-22 06:37:58] [INFO] Logged in as: Suman Tiwari (KGS506)
+[2026-01-22 06:46:22] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:46:22] [INFO] Web server starting on port 8080
+[2026-01-22 06:46:22] [INFO] Application ready. Waiting for commands...
+[2026-01-22 06:47:04] [INFO] === Fast Trading Application Starting ===
+[2026-01-22 06:47:05] [INFO] Logged in as: Suman Tiwari (KGS506)
+[2026-01-22 06:47:07] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:47:07] [INFO] Web server starting on port 8080
+[2026-01-22 06:47:07] [INFO] Application ready. Waiting for commands...
+[2026-01-22 06:47:12] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:12] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:31] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:31] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:33] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:33] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:34] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:34] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:36] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:36] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:39] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:39] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:40] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:40] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:45] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:45] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:48] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:48] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:49] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:49] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:47:51] [WARN] No open positions to close
+[2026-01-22 06:47:55] [WARN] No open positions to close
+[2026-01-22 06:47:56] [WARN] No open positions to close
+[2026-01-22 06:47:57] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:57] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:47:59] [WARN] Order attempted outside market hours
+[2026-01-22 06:47:59] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:00] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:00] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:01] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:01] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:01] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:01] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:02] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:02] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:12] [INFO] Changing instrument...
+[2026-01-22 06:48:18] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:48:18] [INFO] Instrument updated to: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:48:18] [INFO] Server instrument updated to: NIFTY26JAN25100CE
+[2026-01-22 06:48:26] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:26] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:48:26] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:26] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:48:28] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:28] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:29] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:29] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:32] [WARN] No open positions to close
+[2026-01-22 06:48:34] [WARN] No open positions to close
+[2026-01-22 06:48:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:36] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:48:37] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:37] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:48:39] [WARN] No open positions to close
+[2026-01-22 06:48:40] [WARN] Order attempted outside market hours
+[2026-01-22 06:48:40] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:57:52] [INFO] Received Ctrl+C, exiting...
+[2026-01-22 06:57:52] [INFO] Cleaning up resources...
+[2026-01-22 06:57:55] [INFO] === Fast Trading Application Starting ===
+[2026-01-22 06:57:55] [INFO] Logged in as: Suman Tiwari (KGS506)
+[2026-01-22 06:57:56] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 06:57:56] [INFO] Web server starting on port 8080
+[2026-01-22 06:57:57] [INFO] Application ready. Waiting for commands...
+[2026-01-22 06:57:59] [WARN] Order attempted outside market hours
+[2026-01-22 06:57:59] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:02] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:02] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:02] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:02] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:04] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:04] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:04] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:04] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:05] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:05] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:05] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:05] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:19] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:19] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:21] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:21] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:22] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:22] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:23] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:23] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:24] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:24] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:25] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:25] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:25] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:25] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:27] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:27] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:27] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:27] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:27] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:27] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:58:30] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:30] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:34] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:34] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:40] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:40] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:42] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:42] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:44] [WARN] No open positions to close
+[2026-01-22 06:58:55] [WARN] No open positions to close
+[2026-01-22 06:58:56] [WARN] No open positions to close
+[2026-01-22 06:58:57] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:57] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:58] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:58] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:58:59] [WARN] Order attempted outside market hours
+[2026-01-22 06:58:59] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:17] [WARN] No open positions to close
+[2026-01-22 06:59:18] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:18] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:19] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:19] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:19] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:19] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:20] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:22] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:22] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:22] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:23] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:23] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:23] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:23] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:24] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:24] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:24] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:24] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:25] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:25] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:26] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:26] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:26] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:26] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:27] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:27] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:27] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:27] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:28] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:28] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:28] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:28] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:29] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:29] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:29] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:29] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:29] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:29] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:30] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:30] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:30] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:30] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:31] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:31] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:31] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:31] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:31] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:31] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:32] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:32] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:32] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:32] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:33] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:33] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:34] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:34] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:34] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:34] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:35] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:35] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:35] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:35] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:35] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:35] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:36] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:36] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:36] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:52] [WARN] No open positions to close
+[2026-01-22 06:59:53] [WARN] No open positions to close
+[2026-01-22 06:59:55] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:55] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:55] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:55] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:56] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:56] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:56] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:56] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:56] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:56] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:57] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:57] [ERROR] Sell order failed: market is closed
+[2026-01-22 06:59:59] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:59] [ERROR] Buy order failed: market is closed
+[2026-01-22 06:59:59] [WARN] Order attempted outside market hours
+[2026-01-22 06:59:59] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:00] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:00] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:00] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:00] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:02] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:02] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:03] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:03] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:04] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:04] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:04] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:04] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:05] [WARN] No open positions to close
+[2026-01-22 07:00:07] [INFO] Changing instrument...
+[2026-01-22 07:00:10] [INFO] Selected instrument: NIFTY26JAN25100CE (NFO)
+[2026-01-22 07:00:10] [INFO] Instrument updated to: NIFTY26JAN25100CE (NFO)
+[2026-01-22 07:00:10] [INFO] Server instrument updated to: NIFTY26JAN25100CE
+[2026-01-22 07:00:13] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:13] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:13] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:13] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:16] [INFO] Changing instrument...
+[2026-01-22 07:00:19] [INFO] Selected instrument: BANKNIFTY26JAN58700CE (NFO)
+[2026-01-22 07:00:19] [INFO] Instrument updated to: BANKNIFTY26JAN58700CE (NFO)
+[2026-01-22 07:00:19] [INFO] Server instrument updated to: BANKNIFTY26JAN58700CE
+[2026-01-22 07:00:20] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:20] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:21] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:21] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:21] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:21] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:21] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:21] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:22] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:22] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:22] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:22] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:23] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:23] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:23] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:23] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:24] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:24] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:24] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:24] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:25] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:25] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:26] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:26] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:26] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:26] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:30] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:30] [ERROR] Sell order failed: market is closed
+[2026-01-22 07:00:30] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:30] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:34] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:34] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:34] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:34] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:34] [WARN] Order attempted outside market hours
+[2026-01-22 07:00:34] [ERROR] Buy order failed: market is closed
+[2026-01-22 07:00:35] [WARN] No open positions to close
+[2026-01-22 07:00:36] [WARN] No open positions to close
+[2026-01-22 07:00:38] [INFO] Changing instrument...
+[2026-01-22 07:00:40] [INFO] Received shutdown signal
+[2026-01-22 07:00:40] [INFO] Cleaning up resources...

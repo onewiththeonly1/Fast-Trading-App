@@ -1,0 +1,19 @@
+{
+  "api_key": "<API_KEY>",
+  "api_secret": "<API_SECRET>",
+  "access_token": "<ACCESS_TOKEN>",
+  "instruments": [
+    {
+      "symbol": "NIFTY26JAN25100CE",
+      "exchange": "NFO",
+      "lot_size": 65,
+      "comment": "NIFTY 25100 Call - Jan 26, 2026 expiry"
+    },
+    {
+      "symbol": "BANKNIFTY26JAN58700CE",
+      "exchange": "NFO",
+      "lot_size": 30,
+      "comment": "BANKNIFTY 58700 Call - Jan 26, 2026 expiry"
+    }
+  ]
+}
