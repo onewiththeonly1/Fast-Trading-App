@@ -1,3 +1,4 @@
+// Package server provides a web dashboard with real-time updates via WebSocket
 package server
 
 import (
@@ -15,15 +16,17 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// Server manages the web dashboard and WebSocket connections
 type Server struct {
 	posMgr     *position.Manager
 	instrument *config.InstrumentConfig
 	logger     *logger.Logger
-	wsClients  map[*websocket.Conn]bool
-	wsMutex    sync.RWMutex
-	upgrader   websocket.Upgrader
+	wsClients  map[*websocket.Conn]bool // Active WebSocket connections
+	wsMutex    sync.RWMutex             // Protects wsClients map
+	upgrader   websocket.Upgrader       // WebSocket upgrader
 }
 
+// New creates a new web server instance
 func New(posMgr *position.Manager, instrument *config.InstrumentConfig, lgr *logger.Logger) *Server {
 	return &Server{
 		posMgr:     posMgr,
@@ -31,16 +34,22 @@ func New(posMgr *position.Manager, instrument *config.InstrumentConfig, lgr *log
 		logger:     lgr,
 		wsClients:  make(map[*websocket.Conn]bool),
 		upgrader: websocket.Upgrader{
-			CheckOrigin:     func(r *http.Request) bool { return true },
+			CheckOrigin:     func(r *http.Request) bool { return true }, // Allow all origins for development
 			ReadBufferSize:  1024,
 			WriteBufferSize: 1024,
 		},
 	}
 }
 
+// Start begins the web server on the specified port
 func (s *Server) Start(port string) error {
+	// Serve static HTML page
 	http.HandleFunc("/", s.serveHome)
+	
+	// WebSocket endpoint for real-time updates
 	http.HandleFunc("/ws", s.handleWebSocket)
+	
+	// REST API endpoints
 	http.HandleFunc("/api/state", s.handleGetState)
 	http.HandleFunc("/api/logs", s.handleGetLogs)
 

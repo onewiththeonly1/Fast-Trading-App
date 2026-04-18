@@ -1,3 +1,4 @@
+// Package trader handles order placement and price fetching for Zerodha Kite API
 package trader
 
 import (
@@ -31,6 +32,7 @@ const (
 	freezeQtyNFO     = 1800 // NFO freeze quantity (varies by instrument)
 )
 
+// New creates a new trader instance
 func New(kc *kiteconnect.Client, posMgr *position.Manager, instrument config.InstrumentConfig, logger *logger.Logger) *Trader {
 	// Default to MIS if not specified
 	product := instrument.Product
@@ -45,10 +47,11 @@ func New(kc *kiteconnect.Client, posMgr *position.Manager, instrument config.Ins
 		logger:      logger,
 		lastOrder:   time.Now(),
 		product:     product,
-		priceMethod: "positions", // Start with positions method
+		priceMethod: "positions", // Start with positions method (preferred for free tier)
 	}
 }
 
+// PlaceOrder places a buy or sell order for the specified number of lots
 func (t *Trader) PlaceOrder(txnType string, lots int) error {
 	// Validate market hours (optional - remove if trading outside regular hours)
 	if !t.isMarketHours() {
@@ -56,7 +59,7 @@ func (t *Trader) PlaceOrder(txnType string, lots int) error {
 		return fmt.Errorf("market is closed")
 	}
 
-	// Rate limiting
+	// Rate limiting to prevent API abuse
 	if time.Since(t.lastOrder) < orderRateLimit {
 		time.Sleep(orderRateLimit - time.Since(t.lastOrder))
 	}
@@ -64,7 +67,7 @@ func (t *Trader) PlaceOrder(txnType string, lots int) error {
 
 	quantity := lots * t.instrument.LotSize
 
-	// Validate freeze quantity
+	// Validate freeze quantity for NFO instruments
 	if quantity > freezeQtyNFO && t.instrument.Exchange == "NFO" {
 		t.logger.Warn("Quantity %d exceeds freeze limit %d", quantity, freezeQtyNFO)
 		return fmt.Errorf("quantity exceeds freeze limit")
@@ -184,6 +187,8 @@ func (t *Trader) updateOrderDetails(orderID, txnType string, lots int) error {
 	return fmt.Errorf("could not verify order execution")
 }
 
+// FetchCurrentPrice gets the current market price for the instrument
+// Uses adaptive strategy: tries positions API first, falls back to order history
 func (t *Trader) FetchCurrentPrice() (float64, error) {
 	// Try primary method: GetPositions (allowed in Personal Free tier)
 	if t.priceMethod == "positions" {
@@ -192,7 +197,7 @@ func (t *Trader) FetchCurrentPrice() (float64, error) {
 			return price, nil
 		}
 		
-		// Check if it's a permission error
+		// Check if it's a permission error (switch to fallback method)
 		if isPermissionError(err) {
 			t.logger.Warn("Positions API not available, switching to order history method")
 			t.priceMethod = "orders"

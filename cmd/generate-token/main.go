@@ -1,3 +1,4 @@
+// Command generate-token helps users obtain access tokens for Zerodha Kite API
 package main
 
 import (
@@ -14,13 +15,14 @@ import (
 	"golang.org/x/term"
 )
 
+// Config represents the API credentials needed for token generation
 type Config struct {
 	APIKey    string `json:"api_key"`
 	APISecret string `json:"api_secret"`
 }
 
 func main() {
-	// Ensure terminal is in normal mode (not raw mode)
+	// Ensure terminal is in normal mode (not raw mode) for proper input display
 	if term.IsTerminal(int(os.Stdin.Fd())) {
 		oldState, err := term.GetState(int(os.Stdin.Fd()))
 		if err == nil {
@@ -28,23 +30,24 @@ func main() {
 		}
 	}
 
-	fmt.Println("=== Zerodha Kite Connect - Access Token Generator ===\n")
+	fmt.Println("=== Zerodha Kite Connect - Access Token Generator ===")
 
-	// Read config
+	// Read API credentials from config file
 	config, err := loadConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Initialize Kite Connect client
 	kc := kiteconnect.New(config.APIKey)
 
-	// Step 1: Display login URL
+	// Step 1: Display login URL for user to authenticate
 	fmt.Println("STEP 1: Login to Kite Connect")
-	fmt.Println("Copy and paste this URL in your browser:\n")
+	fmt.Println("Copy and paste this URL in your browser:")
 	fmt.Println(kc.GetLoginURL())
 	fmt.Println()
 
-	// Step 2: Get request token
+	// Step 2: Get request token from user after they complete authentication
 	fmt.Println("STEP 2: After logging in, you'll be redirected to your redirect URL")
 	fmt.Println("Copy the 'request_token' parameter from the URL")
 	fmt.Print("\nEnter request_token: ")
@@ -82,7 +85,7 @@ func main() {
 	fmt.Println("2. Access tokens expire at 6:00 AM IST the next day")
 	fmt.Println("3. You'll need to generate a new token daily before market opens")
 	fmt.Println("4. Each request_token can only be used ONCE")
-	fmt.Println("\n💡 TIP: Add this to your daily pre-market routine!\n")
+	fmt.Println("💡 TIP: Add this to your daily pre-market routine!")
 }
 
 func loadConfig() (*Config, error) {

@@ -1,3 +1,4 @@
+// Package position manages trading position tracking and P&L calculations
 package position
 
 import (
@@ -5,33 +6,37 @@ import (
 	"time"
 )
 
+// Order represents a single trading order
 type Order struct {
 	Timestamp time.Time `json:"timestamp"`
-	Type      string    `json:"type"`
+	Type      string    `json:"type"` // "BUY" or "SELL"
 	Quantity  int       `json:"quantity"`
 	Price     float64   `json:"price"`
 	OrderID   string    `json:"order_id"`
 	Status    string    `json:"status"`
 }
 
+// Position represents the current trading position
 type Position struct {
-	QtyLots          int     `json:"qty_lots"`
-	QtyUnits         int     `json:"qty_units"`
-	TotalValue       float64 `json:"total_value"`
-	AvgPrice         float64 `json:"avg_price"`
-	CMP              float64 `json:"cmp"`
-	MTM              float64 `json:"mtm"`
-	MTMChangePercent float64 `json:"mtm_change_percent"`
+	QtyLots          int     `json:"qty_lots"`          // Number of lots held
+	QtyUnits         int     `json:"qty_units"`         // Total units (lots * lot_size)
+	TotalValue       float64 `json:"total_value"`       // Total value at average price
+	AvgPrice         float64 `json:"avg_price"`         // Average price of position
+	CMP              float64 `json:"cmp"`               // Current market price
+	MTM              float64 `json:"mtm"`               // Mark-to-market P&L
+	MTMChangePercent float64 `json:"mtm_change_percent"` // MTM as percentage
 }
 
+// Manager handles position tracking and order history
 type Manager struct {
 	mu           sync.RWMutex
 	position     Position
 	orderHistory []Order
 	
-	// For tracking cost basis
-	totalBuyCost   float64
-	totalBuyUnits  int
+	// For tracking cost basis (needed for accurate average price calculation)
+	totalBuyCost   float64 // Total cost of all buy orders
+	totalBuyUnits  int     // Total units from buy orders
+	realizedPnL    float64 // Realized profit/loss from closed positions
 }
 
 func NewManager() *Manager {
@@ -46,6 +51,7 @@ func (m *Manager) AddOrder(order Order) {
 	m.orderHistory = append(m.orderHistory, order)
 }
 
+// UpdatePosition updates the position based on a trade execution
 func (m *Manager) UpdatePosition(txnType string, lots int, price float64, lotSize int) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -54,7 +60,7 @@ func (m *Manager) UpdatePosition(txnType string, lots int, price float64, lotSiz
 	value := float64(units) * price
 
 	if txnType == "BUY" {
-		// Track cumulative buy cost
+		// Track cumulative buy cost for accurate average price calculation
 		m.totalBuyCost += value
 		m.totalBuyUnits += units
 		
@@ -74,10 +80,18 @@ func (m *Manager) UpdatePosition(txnType string, lots int, price float64, lotSiz
 		m.position.QtyUnits -= units
 		m.position.QtyLots -= lots
 		
-		// Reduce tracked buy cost proportionally
+		// Calculate realized P&L for this sell
 		if m.totalBuyUnits > 0 {
-			costReduction := (float64(units) / float64(m.totalBuyUnits)) * m.totalBuyCost
-			m.totalBuyCost -= costReduction
+			// Cost basis per unit for the sold shares
+			costBasisPerUnit := m.totalBuyCost / float64(m.totalBuyUnits)
+			costBasisForSale := costBasisPerUnit * float64(units)
+			sellValue := float64(units) * price
+			
+			// Realized P&L = sell proceeds - cost basis
+			m.realizedPnL += sellValue - costBasisForSale
+			
+			// Reduce tracked buy cost proportionally
+			m.totalBuyCost -= costBasisForSale
 			m.totalBuyUnits -= units
 		}
 		
@@ -178,29 +192,12 @@ func (m *Manager) Reset() {
 	m.orderHistory = make([]Order, 0)
 	m.totalBuyCost = 0
 	m.totalBuyUnits = 0
+	m.realizedPnL = 0
 }
 
-// Get realized P&L (for closed positions)
+// GetRealizedPnL returns the realized profit/loss from closed positions
 func (m *Manager) GetRealizedPnL() float64 {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-	
-	var realizedPnL float64
-	var buyValue, sellValue float64
-	
-	for _, order := range m.orderHistory {
-		value := float64(order.Quantity) * order.Price
-		if order.Type == "BUY" {
-			buyValue += value
-		} else {
-			sellValue += value
-		}
-	}
-	
-	// Only count as realized if position is closed
-	if m.position.QtyUnits == 0 {
-		realizedPnL = sellValue - buyValue
-	}
-	
-	return realizedPnL
+	return m.realizedPnL
 }

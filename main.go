@@ -19,6 +19,8 @@ import (
 	"golang.org/x/term"
 )
 
+// Global variables for application state
+// Note: These are accessed from multiple goroutines, so care must be taken with synchronization
 var (
 	cfg        *config.Config
 	kc         *kiteconnect.Client
@@ -27,18 +29,19 @@ var (
 	srv        *server.Server
 	lgr        *logger.Logger
 	instrument config.InstrumentConfig
+	instrumentMutex sync.RWMutex // Protects instrument variable
 	
-	// Command state machine
+	// Command state machine for parsing numeric input
 	cmdMutex      sync.Mutex
 	cmdState      string // "" or "-"
 	terminalState *term.State
 )
 
 func main() {
-	// Ensure terminal is in cooked mode initially
+	// Ensure terminal is in cooked mode initially for proper display
 	restoreTerminal()
 	
-	// Initialize logger first
+	// Initialize logger first for proper error reporting
 	var err error
 	lgr, err = logger.New("trading.log")
 	if err != nil {
@@ -74,8 +77,10 @@ func main() {
 	selectInstrument()
 
 	// Initialize trader and server
+	instrumentMutex.RLock()
 	trdr = trader.New(kc, posMgr, instrument, lgr)
 	srv = server.New(posMgr, &instrument, lgr)
+	instrumentMutex.RUnlock()
 
 	// Start web server
 	go func() {
@@ -114,18 +119,20 @@ func selectInstrument() {
 		}
 		product := inst.Product
 		if product == "" {
-			product = "MIS"
+			product = "MIS" // Default to MIS if not specified
 		}
 		fmt.Printf("%s. %s (%s) [%s] - Lot Size: %d\n", key, inst.Symbol, inst.Exchange, product, inst.LotSize)
 	}
 
 	fmt.Printf("\nSelect instrument (1-9, A-Z) or Q to quit: ")
 
-	// Put terminal in raw mode for single-character input
+	// Put terminal in raw mode for single-character input (no Enter needed)
 	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
 		fmt.Printf("\nError setting raw mode, using default...\n")
-		instrument = cfg.Instruments[0]
+		instrumentMutex.Lock()
+		instrument = cfg.Instruments[0] // Fallback to first instrument
+		instrumentMutex.Unlock()
 		return
 	}
 
@@ -161,6 +168,7 @@ func selectInstrument() {
 
 		// Validate selection
 		if selectedIndex >= 0 && selectedIndex < len(cfg.Instruments) {
+			instrumentMutex.Lock()
 			instrument = cfg.Instruments[selectedIndex]
 			
 			// Restore terminal before printing
@@ -172,6 +180,7 @@ func selectInstrument() {
 			
 			lgr.Info("Selected instrument: %s (%s) [%s]", 
 				instrument.Symbol, instrument.Exchange, instrument.Product)
+			instrumentMutex.Unlock()
 			return
 		}
 	}
@@ -197,31 +206,31 @@ func commandLoop() {
 
 		char := buf[0]
 
-		// Handle Ctrl+C
+		// Handle Ctrl+C for graceful shutdown
 		if char == 3 {
 			lgr.Info("Received Ctrl+C, exiting...")
 			cleanup()
 			os.Exit(0)
 		}
 
-		// Handle Quit
+		// Handle Quit command
 		if char == 'Q' || char == 'q' {
 			lgr.Info("Quit command received")
 			cleanup()
 			os.Exit(0)
 		}
 
-		// Handle Change Instrument
+		// Handle Change Instrument command
 		if char == 'C' || char == 'c' {
 			handleChangeInstrument()
 			continue
 		}
 
-		// Handle numeric input and minus
+		// Handle numeric input and minus for trading commands
 		if (char >= '0' && char <= '9') || char == '-' {
 			handleNumericInput(char)
 		} else {
-			// Invalid character - reset state
+			// Invalid character - reset command state
 			cmdMutex.Lock()
 			if cmdState == "-" {
 				// Was waiting for digit after minus
@@ -237,19 +246,20 @@ func handleNumericInput(char byte) {
 	defer cmdMutex.Unlock()
 
 	// State machine for command processing
+	// States: "" (initial), "-" (waiting for digit after minus)
 	switch cmdState {
 	case "":
-		// Initial state
+		// Initial state - handle buy orders or start sell sequence
 		if char == '-' {
-			fmt.Print("-")  // Echo the minus
+			fmt.Print("-")  // Echo the minus sign
 			cmdState = "-"
 		} else if char >= '1' && char <= '9' {
 			fmt.Print(string(char))  // Echo the digit
 			num := int(char - '0')
 			cmdState = ""
-			go placeBuyOrder(num)
+			go placeBuyOrder(num) // Execute buy order asynchronously
 		} else if char == '0' {
-			// Invalid command
+			// Invalid command - 0 lots not allowed
 			fmt.Print("0")  // Echo but ignore
 			cmdState = ""
 		}
@@ -259,25 +269,29 @@ func handleNumericInput(char byte) {
 		if char == '-' {
 			fmt.Print("-")  // Echo second minus
 			cmdState = ""
-			go closeAllPositions()
+			go closeAllPositions() // Execute close all command asynchronously
 		} else if char >= '1' && char <= '9' {
 			fmt.Print(string(char))  // Echo the digit
 			num := int(char - '0')
 			cmdState = ""
-			go placeSellOrder(num)
+			go placeSellOrder(num) // Execute sell order asynchronously
 		} else if char == '0' {
-			// Invalid: -0
+			// Invalid: -0 not allowed
 			fmt.Print("0")  // Echo but ignore
 			cmdState = ""
 		} else {
-			// Invalid character after minus
+			// Invalid character after minus - reset
 			cmdState = ""
 		}
 	}
 }
 
 func handleChangeInstrument() {
-	if posMgr.HasOpenPosition() {
+	instrumentMutex.RLock()
+	hasPosition := posMgr.HasOpenPosition()
+	instrumentMutex.RUnlock()
+	
+	if hasPosition {
 		lgr.Warn("Cannot change instrument with open positions")
 		fmt.Printf("\n⚠️  Cannot change with open positions\n> ")
 		srv.BroadcastUpdate()
@@ -291,8 +305,12 @@ func handleChangeInstrument() {
 	lgr.Info("Changing instrument...")
 	fmt.Printf("\n")
 	selectInstrument()
+	
+	instrumentMutex.RLock()
 	trdr.UpdateInstrument(instrument)
 	srv.UpdateInstrument(&instrument)
+	instrumentMutex.RUnlock()
+	
 	srv.BroadcastUpdate()
 	
 	// Put terminal back in raw mode
