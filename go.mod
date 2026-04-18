@@ -1,4 +1,4 @@
-module fast-trading-app
+module fast-trading-kite
 
 go 1.25.6
 

@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"fast-trading-app/internal/config"
-	"fast-trading-app/internal/logger"
-	"fast-trading-app/internal/position"
+	"fast-trading-kite/internal/config"
+	"fast-trading-kite/internal/logger"
+	"fast-trading-kite/internal/position"
 
 	"github.com/gorilla/websocket"
 )

@@ -43,7 +43,7 @@
 ## 📁 Project Structure
 
 ```
-fast-trading-app/
+fast-trading-kite/
 ├── main.go                    # Application entry point with terminal UI
 ├── config.json               # API credentials and instrument configuration
 ├── trading.log               # Application logs
@@ -116,9 +116,9 @@ fast-trading-app/
 ### 1️⃣ Create Project
 
 ```bash
-mkdir -p ~/fast-trading-app/{cmd/generate-token,internal/{config,logger,position,server,terminal,trader},web}
-cd ~/fast-trading-app
-go mod init fast-trading-app
+mkdir -p ~/fast-trading-kite/{cmd/generate-token,internal/{config,logger,position,server,terminal,trader},web}
+cd ~/fast-trading-kite
+go mod init fast-trading-kite
 ```
 
 ### 2️⃣ Install Dependencies
